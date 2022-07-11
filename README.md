@@ -1,15 +1,15 @@
 # PROJET MICRO LANGUAGE en python
 
 ## Commande FIND:
-> ex : FIND * WEHRE CP = 78300 AND TYPE = "langue-des-signes" LIMIT 1
+> ex : FIND * WEHRE CP = 78300 AND TYPE = langue-des-signes LIMIT 1
 recherche un élement 
 
 ### OPTION DE LA COMMANDE FIND
 
-#### WHERE CP = ... AND TYPE = "..."
+#### WHERE CP = ... AND TYPE = ...
 > obligatoire
 code postal de la ville de la recherche
-et type de recherche de 
+et type de recherche (voir liste de type)
  
 #### Limit
 >pas obligatoire
