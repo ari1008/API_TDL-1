@@ -1,5 +1,4 @@
 from posixpath import split
-import re
 import requests
 
 
