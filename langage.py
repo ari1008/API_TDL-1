@@ -29,7 +29,7 @@ tokens = [
              'PLUS', 'TIMES', 'DIVIDE',
              'LPAREN', 'RPAREN', 'TRUE', 'FALSE',  'OR',
              'SEMICOLON', 'NAME', 'EQUAL', 'BIGGER', 'SMALLER',
-             'LPARA', 'RPARA', "APO", "MARK", 'COMMA', "ENTITY",
+             'LPARA', 'RPARA', "APO", "MARK", 'COMMA', "ENTITY", "POSTAL"
          ] + list(reserved.values())
 
 
@@ -45,6 +45,10 @@ t_ignore = " \t"
 
 def t_ENTITY(t):
     r"""DESC|URL_INFO|ID|PLACE|TITLE|\*"""
+    return t
+
+def t_POSTAL(t):
+    r'''\d{2}[ ]?\d{3}'''
     return t
 
 
@@ -87,7 +91,7 @@ def p_satement_expr(p):
 
 
 def p_expression_condition(p):
-    '''CONDITION  : CP EQUAL NUMBER AND TYPE EQUAL NAME '''
+    '''CONDITION  : CP EQUAL POSTAL AND TYPE EQUAL NAME '''
     p[0] = ("CONDITION", p[3], p[7])
 
 
