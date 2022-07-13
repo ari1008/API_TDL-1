@@ -2,7 +2,7 @@ import ply.yacc as yacc
 
 
 import convertLangage
-from test import verifIfIsWord
+from Work import verifIfIsWord
 
 reserved = {
     "FIND": "FIND",
