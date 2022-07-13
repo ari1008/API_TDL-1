@@ -11,7 +11,6 @@ def convertLanguage(p):
     entityTable = entityExtract(p[1], [])
     if len(p) == 4 and p[3] >= 0:
         limit = p[3]
-    print(type(entityTable))
     Cfind(cp, Type, entityTable, limit)
 
 

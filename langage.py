@@ -103,5 +103,5 @@ def p_expression_expr(p):
 yacc.yacc()
 #yacc.yacc(tabmodule="foo")  # after
 s5: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees  ;"
-# s = input('calc > ')
-yacc.parse(s5)
+s = input('> ')
+yacc.parse(s)
