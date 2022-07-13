@@ -85,13 +85,13 @@ def BuildUrl(type, cp):
     return "https://www.aladom.fr/" + type + "/" + locate(cp)
 
 #fonction qui se lance lors de l'execution de la commande page  
-def Cfind(cp, type):
+def Cfind(cp, type, entityTable, limit):
     url = BuildUrl(type, cp)
     cp = request(url)
     if cp != 400:
         parse(cp)
     return
 
-Cfind(78300, "aide-personnes-handicapees")
+#Cfind(78300, "aide-personnes-handicapees")
 
 
