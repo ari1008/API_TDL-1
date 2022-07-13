@@ -100,8 +100,8 @@ def p_expression_expr(p):
         p[0] = ("ENTITY", p[1], p[3])
 
 
-# yacc.yacc()
-yacc.yacc(tabmodule="foo")  # after
-s5: str = " FIND DESC , URL_INFO  WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 1 ;"
+yacc.yacc()
+#yacc.yacc(tabmodule="foo")  # after
+s5: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees  ;"
 # s = input('calc > ')
 yacc.parse(s5)

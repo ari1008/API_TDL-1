@@ -57,7 +57,7 @@ def findElement(listElement):
             else:
                 ListRes.append(findInfoIntoElement(listElement[first:i]))
                 first = i
-    printdict(ListRes)
+    #printdict(ListRes)
     return ListRes
 
 #prend en paramètre l'url de la page 
@@ -76,6 +76,8 @@ def printdict(tab):
         pprint.pprint(element)
         print("========")
 
+def choose(tab):
+    print(tab)
 #a finir
 def locate(cp):
     return "paris-75/"
@@ -86,11 +88,28 @@ def BuildUrl(type, cp):
 
 #fonction qui se lance lors de l'execution de la commande page  
 def Cfind(cp, type, entityTable, limit):
+    entityTable = ["DESC", "URL_INFO", "ID", "PLACE", "TITLE"] if entityTable == ["*"] else entityTable
     url = BuildUrl(type, cp)
     cp = request(url)
     if cp != 400:
-        parse(cp)
+        result = parse(cp)
+        chooseData(result, entityTable, limit)
+
     return
+
+def chooseData(result, entityTable, limit):
+    limit = len(result) if limit == -1 else limit
+    f = open("users.xml", mode='w', encoding='utf-8')
+    f.write("<?xml version=\"1.0\"?>\n")
+    f.write("<Users>\n")
+    for i in range(0, limit):
+        f.write(f"\t<User id=\"{i}\">\n")
+        for entity in entityTable:
+             f.write(f"\t\t<{entity.capitalize() }>{result[i].get(entity)}</{entity.capitalize()}>\n")
+        f.write(f"\t</User>\n")
+    f.write("</Users>\n")
+    f.close()
+
 
 #Cfind(78300, "aide-personnes-handicapees")
 
