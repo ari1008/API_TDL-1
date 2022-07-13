@@ -1,7 +1,8 @@
 import ply.yacc as yacc
-import ply.lex as lex
+
 
 import convertLangage
+from test import verifIfIsWord
 
 reserved = {
     "FIND": "FIND",
@@ -14,29 +15,19 @@ reserved = {
 
 # Tokens
 
-t_OR = r'\|'
+
 t_SEMICOLON = r'\;'
 t_COMMA = r'\,'
 t_EQUAL = r'='
-t_BIGGER = r'>'
-t_SMALLER = r'<'
-
+t_NUMBER = r'\d'
 
 
 
 tokens = [
-             'NUMBER', 'MINUS', 'NAME'
-             'PLUS', 'TIMES', 'DIVIDE',
-             'LPAREN', 'RPAREN', 'TRUE', 'FALSE',  'OR',
-             'SEMICOLON', 'NAME', 'EQUAL', 'BIGGER', 'SMALLER',
-             'LPARA', 'RPARA', "APO", "MARK", 'COMMA', "ENTITY", "POSTAL"
+             'NUMBER',  'NAME', 'COMMA', "ENTITY", "POSTAL", "SEMICOLON", "EQUAL"
          ] + list(reserved.values())
 
 
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
 
 
 # Ignored characters
@@ -50,6 +41,8 @@ def t_ENTITY(t):
 def t_POSTAL(t):
     r'''\d{2}[ ]?\d{3}'''
     return t
+
+
 
 
 def t_NAME(t):
@@ -70,7 +63,7 @@ def t_error(t):
 
 # Build the lexer
 
-
+import ply.lex as lex
 # lexer = lex.lex(debug=1) #add
 lex.lex()
 
@@ -87,13 +80,23 @@ def p_satement_expr(p):
     if len(p) == 6:
         p[0] = ('FIND', p[2], p[4])
     else:
-        p[0] = ('FIND', p[2], p[4], p[6])
+        p[0] = ('FIND', p[2], p[4], int(p[6]))
 
 
 def p_expression_condition(p):
-    '''CONDITION  : CP EQUAL POSTAL AND TYPE EQUAL NAME '''
-    p[0] = ("CONDITION", p[3], p[7])
+    '''CONDITION  : CP EQUAL POSTAL AND  WORK '''
+    p[0] = ("CONDITION", p[3], p[5])
 
+def p_error(p):
+    print("error" +  str(p))
+
+
+def p_expression_work(p):
+    '''WORK :  TYPE EQUAL NAME '''
+    if verifIfIsWord(p[3]) == -1:
+        p.lexer.skip(1)
+    else:
+        p[0] = p[3]
 
 def p_expression_expr(p):
     '''ENTITIES : ENTITY
@@ -106,6 +109,9 @@ def p_expression_expr(p):
 
 yacc.yacc()
 #yacc.yacc(tabmodule="foo")  # after
-s5: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees  ;"
-s = input('> ')
-yacc.parse(s)
+s5: str = " FIND * WHERE  CP = 78300 AND TYPE = nothing LIMIT 0 ;" # error
+s6: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 1 ;" # work
+s7: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 0 ;" # create empty xml  ;) I choice the solution
+s8: str = " FIND * WHERE  CP = 78300 AND TYPE = cours-tango LIMIT 1 ;"
+#s = input('> ')
+yacc.parse(s6)

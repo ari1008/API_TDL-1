@@ -98,7 +98,8 @@ def Cfind(cp, type, entityTable, limit):
     return
 
 def chooseData(result, entityTable, limit):
-    limit = len(result) if limit == -1 else limit
+    if len(result) == 0:
+        return
     f = open("users.xml", mode='w', encoding='utf-8')
     f.write("<?xml version=\"1.0\"?>\n")
     f.write("<Users>\n")
