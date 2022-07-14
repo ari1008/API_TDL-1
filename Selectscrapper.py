@@ -3,7 +3,7 @@ from Findscrapper import request
 
 # récupère le titre de la page d'apres la balise title 
 def recoveryTitle(title):
-    return 
+    return title[5:title.find('</title>')]
 
 def recoveryDesc(tab , index):
     return
@@ -17,9 +17,10 @@ def recoveryTitleAndDesc(tab):
             print("ERROR")
             break
         if '<title>' in tab[i]:
-            dictres['TITLE'] == recoveryTitle(tab[i])
+            dictres["TITLE"] = recoveryTitle(tab[i])
         if '<meta name="description"' in tab[i]:
-            dictres['DESC'] == recoveryDesc(tab, i)
+            dictres["DESC"] = recoveryDesc(tab, i)
+            break
         i = i + 1
     return dictres
 
@@ -52,8 +53,8 @@ def Cselect(id):
     txtpage = request(url)
     print(url)
     if txtpage != 400:
-        parse(txtpage)
+        print(parse(txtpage))
     return
 
 Cselect("aide-personnes-handicapees/paris_15eme-75/carlos-28-ans-aide-aux-personnes-handicapees-516u")
-#Cselect("aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st")
+Cselect("aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st")
