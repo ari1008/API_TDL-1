@@ -1,5 +1,5 @@
 from ensurepip import version
-from Findscrapper import request
+from Findscrapper import request, RecoveryUrlIMG
 
 # récupère le titre de la page d'apres la balise title 
 def recoveryTitle(title):
@@ -38,6 +38,7 @@ def parse(txtpage):
     try:
         index = list_content_url.index('          <div class="offer-service-card ">')
         dictres = NOPro(dictres, list_content_url[index:])
+        dictres["ULR_IMG"] = RecoveryUrlIMG(list_content_url[list_content_url.index('              <div class="offer-item-picture" itemprop="provider" itemscope itemtype="https://schema.org/Person">')+1])
     except ValueError:
         dictres = pro(dictres)
     return dictres 
@@ -48,9 +49,14 @@ def recoveryPriceNet(priceLine):
 def recoveryPrice(priceLine):
     return priceLine[priceLine.find("t")+1:priceLine.find("a")]
 
+def recoverylocation(location):
+    return location[location.find('">')+2:location.find('</div>')]
+
 def NOPro(dictres, list_content):
     index = list_content.index('        <div class="offer-content col-md-7 order-md-1">')
     for i in range(0, index):
+        if "item-location" in list_content[i]:
+            dictres["LOCATION"] = recoverylocation(list_content[i])
         if "price-info mt-3" in list_content[i]:
             dictres["NET_PRICE"] = recoveryPriceNet(list_content[i])
         if "price-info-cesu" in list_content[i]:
