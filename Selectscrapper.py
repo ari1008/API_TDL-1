@@ -37,15 +37,24 @@ def parse(txtpage):
     dictres = recoveryTitleAndDesc(list_content_url)
     try:
         index = list_content_url.index('          <div class="offer-service-card ">')
-        dictres = NOPro(dictres)
+        dictres = NOPro(dictres, list_content_url[index:])
     except ValueError:
         dictres = pro(dictres)
     return dictres 
 
-def recoveryPrice():
-    return
+def recoveryPriceNet(priceLine):
+    return priceLine[priceLine.find('">')+2:priceLine.find('</div>')]
 
-def NOPro(dictres):
+def recoveryPrice(priceLine):
+    return priceLine[priceLine.find("t")+1:priceLine.find("a")]
+
+def NOPro(dictres, list_content):
+    index = list_content.index('        <div class="offer-content col-md-7 order-md-1">')
+    for i in range(0, index):
+        if "price-info mt-3" in list_content[i]:
+            dictres["NET_PRICE"] = recoveryPriceNet(list_content[i])
+        if "price-info-cesu" in list_content[i]:
+            dictres["PRICE"] = recoveryPrice(list_content[i+2])
     return dictres
 
 def pro(dictres):
