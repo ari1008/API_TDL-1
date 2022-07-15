@@ -6,7 +6,14 @@ def recoveryTitle(title):
     return title[5:title.find('</title>')]
 
 def recoveryDesc(tab , index):
-    return
+    desc = (tab[index])[tab[index].find('content='):]
+    while True:
+        index = index + 1
+        if '">' in tab[index]:
+            break
+        desc = desc + " " +  tab[index]
+    desc = desc + " " +  (tab[index])[:len(tab[index])-2]
+    return desc
 
 def recoveryTitleAndDesc(tab):
     dictres = {}
