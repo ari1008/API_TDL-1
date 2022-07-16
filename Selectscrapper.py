@@ -81,7 +81,7 @@ def pro(dictres, list_content):
 
 #crée l'url avec l'id rentré dans la page
 def createUrl(id):
-    return "https://www.aladom.fr/" + id
+    return "https://www.aladom.fr" + id
 
 def Cselect(id):
     url = createUrl(id)
@@ -91,7 +91,7 @@ def Cselect(id):
         print(parse(txtpage))
     return
 
-Cselect("aide-personnes-handicapees/paris_15eme-75/carlos-28-ans-aide-aux-personnes-handicapees-516u")
-Cselect("aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st")
-Cselect("aide-personnes-handicapees/paris-75/assistante-de-vie-aux-familles-a-son-compte-8dbg#")
-Cselect("aide-personnes-handicapees/paris-75/aide-a-la-personne-8aq9")
+Cselect("/aide-personnes-handicapees/paris_15eme-75/carlos-28-ans-aide-aux-personnes-handicapees-516u")
+Cselect("/aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st")
+Cselect("/aide-personnes-handicapees/paris-75/assistante-de-vie-aux-familles-a-son-compte-8dbg#")
+Cselect("/aide-personnes-handicapees/paris-75/aide-a-la-personne-8aq9")
