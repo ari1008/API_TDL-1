@@ -40,7 +40,7 @@ def parse(txtpage):
         dictres = NOPro(dictres, list_content_url[index:])
         dictres["ULR_IMG"] = RecoveryUrlIMG(list_content_url[list_content_url.index('              <div class="offer-item-picture" itemprop="provider" itemscope itemtype="https://schema.org/Person">')+1])
     except ValueError:
-        dictres = pro(dictres)
+        dictres = pro(dictres, list_content_url)
     return dictres 
 
 def recoveryPriceNet(priceLine):
@@ -68,7 +68,15 @@ def NOPro(dictres, list_content):
             dictres["NUM"] = recoveryNUm(list_content[i])
     return dictres
 
-def pro(dictres):
+def pro(dictres, list_content):
+    index = list_content.index('        <div class="offer-content col-md-7 order-md-1">')
+    for i in range(0, index):
+        if 'data-src' in list_content[i]:
+            dictres["URL_IMG"] = RecoveryUrlIMG(list_content[i])
+        if "price-info mt-3" in list_content[i]:
+            dictres["NET_PRICE"] = recoveryPriceNet(list_content[i])
+        if "item-location" in list_content[i]:
+            dictres["LOCATION"] = recoverylocation(list_content[i])
     return dictres
 
 #crée l'url avec l'id rentré dans la page
@@ -86,3 +94,4 @@ def Cselect(id):
 Cselect("aide-personnes-handicapees/paris_15eme-75/carlos-28-ans-aide-aux-personnes-handicapees-516u")
 Cselect("aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st")
 Cselect("aide-personnes-handicapees/paris-75/assistante-de-vie-aux-familles-a-son-compte-8dbg#")
+Cselect("aide-personnes-handicapees/paris-75/aide-a-la-personne-8aq9")
