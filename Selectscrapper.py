@@ -6,13 +6,20 @@ def recoveryTitle(title):
 
 def recoveryDesc(tab , index):
     desc = (tab[index])[tab[index].find('content='):]
+    desc = (desc[8:])
     while True:
         index = index + 1
         if '">' in tab[index]:
             break
         desc = desc + " " +  tab[index]
-    desc = desc + " " +  (tab[index])[:len(tab[index])-2]
+    desc = desc + " " +  cutMeta((tab[index])[:tab[index].find('>')-2])
     return desc
+
+def cutMeta(line):
+    if "meta" in line:
+        line =  line[:line.find("meta")]
+        return line[:line.find('">')]
+    return line
 
 def recoveryTitleAndDesc(tab):
     dictres = {}
@@ -23,9 +30,9 @@ def recoveryTitleAndDesc(tab):
             print("ERROR")
             break
         if '<title>' in tab[i]:
-            dictres["TITLE"] = recoveryTitle(tab[i])
+            dictres["TITLE"] = recoveryTitle(tab[i]).replace('&#x27;', "'")
         if '<meta name="description"' in tab[i]:
-            dictres["DESC"] = recoveryDesc(tab, i)
+            dictres["DESC"] = recoveryDesc(tab, i).replace('&#x27;', "'")
             break
         i = i + 1
     return dictres
@@ -58,7 +65,7 @@ def NOPro(dictres, list_content):
     index = list_content.index('        <div class="offer-content col-md-7 order-md-1">')
     for i in range(0, index):
         if "item-location" in list_content[i]:
-            dictres["LOCATION"] = recoverylocation(list_content[i])
+            dictres["PLACE"] = recoverylocation(list_content[i]).replace('&#x27;', "'")
         if "price-info mt-3" in list_content[i]:
             dictres["NET_PRICE"] = recoveryPriceNet(list_content[i])
         if "price-info-cesu" in list_content[i]:
@@ -75,17 +82,37 @@ def pro(dictres, list_content):
         if "price-info mt-3" in list_content[i]:
             dictres["NET_PRICE"] = recoveryPriceNet(list_content[i])
         if "item-location" in list_content[i]:
-            dictres["LOCATION"] = recoverylocation(list_content[i])
+            dictres["PLACE"] = recoverylocation(list_content[i]).replace('&#x27;', "'")
     return dictres
 
 #crée l'url avec l'id rentré dans la page
 def createUrl(id):
     return "https://www.aladom.fr/" + id
 
-def Cselect(id):
+def Cselect(id, entityTable):
+    entityTable = ["DESC", "URL_INFO", "NET_PRICE", "PRICE", "TITLE", "PLACE", "NUM"] if entityTable == ["*"] else entityTable
     url = createUrl(id)
     txtpage = request(url)
     print(url)
-    if txtpage != 400:
-        print(parse(txtpage))
-    return
+    if txtpage != 404:
+        res = parse(txtpage)
+        chooseData(res, entityTable)
+        return 0
+    return 42
+    
+def chooseData(result, entityTable):
+    if len(result) == 0:
+        return
+    f = open("select.xml", mode='a', encoding='utf-8')
+    f.write("<?xml version=\"1.0\"?>\n")
+    f.write("<Find>\n")
+    for entity in entityTable:
+        if entity in result.keys():
+            f.write(f"\t<{entity.capitalize() }>{result.get(entity)}</{entity.capitalize()}>\n")
+    f.write("</Find>\n")
+    f.close()
+
+Cselect("aide-personnes-handicapees/paris_15eme-75/carlos-28-ans-aide-aux-personnes-handicapees-516u", ["*"])
+Cselect("aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st", ["*"])
+Cselect("aide-personnes-handicapees/paris-75/assistante-de-vie-aux-familles-a-son-compte-8dbg#", ["*"])
+Cselect("aide-personnes-handicapees/paris-75/aide-a-la-personne-8aq9", ["*"])
