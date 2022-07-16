@@ -78,9 +78,13 @@ def printdict(tab):
 
 def choose(tab):
     print(tab)
-#a finir
+
+#fonction qui recherche dans l'api du
 def locate(cp):
-    return "paris-75/"
+    r = requests.get("https://api-adresse.data.gouv.fr/search/?q="+str(cp)+"&type=municipality")
+    test = r.json()
+    name = test['features'][0]['properties']['name']
+    return  name.lower() + "-"+ (str(cp))[:2] +"/"
 
 #fonction qui contruit l'url 
 def BuildUrl(type, cp):
@@ -93,25 +97,28 @@ def Cfind(cp, type, entityTable, limit):
     cp = request(url)
     if cp != 400:
         result = parse(cp)
-        chooseData(result, entityTable, limit)
+        print(result)
+        #chooseData(result, entityTable, limit)
 
     return
 
 def chooseData(result, entityTable, limit):
     if len(result) == 0:
         return
+    if limit == -1:
+        limit = len(result)
     f = open("users.xml", mode='w', encoding='utf-8')
     f.write("<?xml version=\"1.0\"?>\n")
-    f.write("<Users>\n")
+    f.write("<Limit>\n")
     for i in range(0, limit):
         f.write(f"\t<User id=\"{i}\">\n")
         for entity in entityTable:
              f.write(f"\t\t<{entity.capitalize() }>{result[i].get(entity)}</{entity.capitalize()}>\n")
         f.write(f"\t</User>\n")
-    f.write("</Users>\n")
+    f.write("</Limit>\n")
     f.close()
 
 
-#Cfind(78300, "aide-personnes-handicapees")
+Cfind(78300, "aide-personnes-handicapees", "*", -1)
 
-
+print(locate(78300))
