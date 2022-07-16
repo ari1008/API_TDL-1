@@ -98,7 +98,7 @@ def Cfind(cp, type, entityTable, limit):
     if cp != 400:
         result = parse(cp)
         print(result)
-        #chooseData(result, entityTable, limit)
+        chooseData(result, entityTable, limit)
 
     return
 
@@ -119,6 +119,4 @@ def chooseData(result, entityTable, limit):
     f.close()
 
 
-Cfind(78300, "aide-personnes-handicapees", "*", -1)
 
-print(locate(78300))
