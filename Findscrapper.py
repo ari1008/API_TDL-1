@@ -131,7 +131,8 @@ def Cfind(cp, type, entityTable, limit):
         result = parse(requestRes)
         result = nav(result, list(requestRes.split('\n')))
         chooseData(result, entityTable, limit, cp)
-    return
+        return 0
+    return 42
 
 def chooseData(result, entityTable, limit, cp):
     if len(result) == 0:
@@ -149,5 +150,5 @@ def chooseData(result, entityTable, limit, cp):
     f.write("</Find>\n")
     f.close()
 
-Cfind(78300, "aide-personnes-handicapees" , ["*"], -1)
+
 
