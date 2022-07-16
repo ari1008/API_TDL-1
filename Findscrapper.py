@@ -23,6 +23,16 @@ def nav(tabres, content):
     except ValueError:
         return tabres
 
+def recoveryDesc(tab , index):
+    desc = (tab[index])[tab[index].find('">'):]
+    while True:
+        index = index + 1
+        if '</' in tab[index]:
+            break
+        desc = desc + " " +  tab[index]
+    desc = desc + " " +  (tab[index])[:len(tab[index])-2]
+    return desc
+
 #decoup la page avec que ce qui nous interesse 
 def parse(content_url):
     list_content_url = list(content_url.split('\n'))
@@ -59,12 +69,13 @@ def findInfoIntoElement(listElement):
     for i in range(0, len(listElement)):
         if listElement[i] == "    <figure>":
             dictInfo["URL_INFO"] = RecoveryUrlIMG(listElement[i+1])
-            dictInfo["TITLE"] = Recoverytitle(listElement[i+1])
+            dictInfo["TITLE"] = Recoverytitle(listElement[i+1]).replace('&#x27;', "'")
         if listElement[i] == '      <i class="fa fa-fw fa-map-marker"></i>':
             dictInfo["PLACE"] = listElement[i+1]
         if "<h3" in listElement[i]:
             dictInfo["ID"] = RecoveryId(listElement[i])
-        dictInfo["DESC"] = "a faire"
+        if "description" in listElement[i]:
+            dictInfo["DESC"] = recoveryDesc(listElement, i)
     return dictInfo
 
 #recherce element
