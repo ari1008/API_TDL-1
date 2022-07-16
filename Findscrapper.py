@@ -95,22 +95,22 @@ def BuildUrl(type, cp):
 def Cfind(cp, type, entityTable, limit):
     entityTable = ["DESC", "URL_INFO", "ID", "PLACE", "TITLE"] if entityTable == ["*"] else entityTable
     url = BuildUrl(type, cp)
-    cp = request(url)
-    print(url)
-    if cp != 400:
-        result = parse(cp)
-        chooseData(result, entityTable, limit)
+    requestRes = request(url)
+    print(requestRes)
+    if requestRes != 404:
+        result = parse(requestRes)
+        chooseData(result, entityTable, limit, cp)
 
     return
 
-def chooseData(result, entityTable, limit):
+def chooseData(result, entityTable, limit, cp):
     if len(result) == 0:
         return
-    if limit == -1:
+    if limit == -1 or  limit > len(result):
         limit = len(result)
     f = open("users.xml", mode='w', encoding='utf-8')
     f.write("<?xml version=\"1.0\"?>\n")
-    f.write("<Find>\n")
+    f.write("<Find CP="+str(cp)+" LIMIT="+str(limit)+">\n")
     for i in range(0, limit):
         f.write(f"\t<User id=\"{i}\">\n")
         for entity in entityTable:
@@ -119,5 +119,5 @@ def chooseData(result, entityTable, limit):
     f.write("</Find>\n")
     f.close()
 
-Cfind(78300, "aide-personnes-handicapees" , ["*"], -1)
+Cfind(78300, "aide-personnes-handicapes" , ["*"], 18)
 
