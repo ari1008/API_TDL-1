@@ -1,6 +1,27 @@
+from msilib.schema import tables
 import requests
 import pprint
 
+
+def reveryUrlnav(lineurl):
+    return lineurl[lineurl.find('href="'):lineurl.rfind('">')]
+
+def nav(tabres, content):
+    try:
+        index = content.index('  <ul class="pagination">')
+        content = content[index:]
+        index2 = content.index('</nav>')
+        tabUrl = []
+        for i in range(0, index2):
+            if 'href' in content[i] and 'ala-chevron-right' not in content[i]:
+                tabUrl.append("https://www.aladom.fr" + reveryUrlnav(content[i])[6:])
+        for element in tabUrl:
+            r = request(element)
+            if r != 404:
+                tabres = tabres + parse(r)
+        return tabres
+    except ValueError:
+        return tabres
 
 #decoup la page avec que ce qui nous interesse 
 def parse(content_url):
@@ -57,7 +78,6 @@ def findElement(listElement):
             else:
                 ListRes.append(findInfoIntoElement(listElement[first:i]))
                 first = i
-    print(listElement[i])
     ListRes.append(findInfoIntoElement(listElement[first:]))
     return ListRes
 
@@ -96,11 +116,10 @@ def Cfind(cp, type, entityTable, limit):
     entityTable = ["DESC", "URL_INFO", "ID", "PLACE", "TITLE"] if entityTable == ["*"] else entityTable
     url = BuildUrl(type, cp)
     requestRes = request(url)
-    print(requestRes)
     if requestRes != 404:
         result = parse(requestRes)
+        result = nav(result, list(requestRes.split('\n')))
         chooseData(result, entityTable, limit, cp)
-
     return
 
 def chooseData(result, entityTable, limit, cp):
@@ -119,5 +138,5 @@ def chooseData(result, entityTable, limit, cp):
     f.write("</Find>\n")
     f.close()
 
-Cfind(78300, "aide-personnes-handicapes" , ["*"], 18)
+Cfind(78300, "aide-personnes-handicapees" , ["*"], -1)
 
