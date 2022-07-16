@@ -57,7 +57,8 @@ def findElement(listElement):
             else:
                 ListRes.append(findInfoIntoElement(listElement[first:i]))
                 first = i
-    #printdict(ListRes)
+    print(listElement[i])
+    ListRes.append(findInfoIntoElement(listElement[first:]))
     return ListRes
 
 #prend en paramètre l'url de la page 
@@ -95,9 +96,9 @@ def Cfind(cp, type, entityTable, limit):
     entityTable = ["DESC", "URL_INFO", "ID", "PLACE", "TITLE"] if entityTable == ["*"] else entityTable
     url = BuildUrl(type, cp)
     cp = request(url)
+    print(url)
     if cp != 400:
         result = parse(cp)
-        print(result)
         chooseData(result, entityTable, limit)
 
     return
@@ -109,14 +110,14 @@ def chooseData(result, entityTable, limit):
         limit = len(result)
     f = open("users.xml", mode='w', encoding='utf-8')
     f.write("<?xml version=\"1.0\"?>\n")
-    f.write("<Limit>\n")
+    f.write("<Find>\n")
     for i in range(0, limit):
         f.write(f"\t<User id=\"{i}\">\n")
         for entity in entityTable:
              f.write(f"\t\t<{entity.capitalize() }>{result[i].get(entity)}</{entity.capitalize()}>\n")
         f.write(f"\t</User>\n")
-    f.write("</Limit>\n")
+    f.write("</Find>\n")
     f.close()
 
-
+Cfind(78300, "aide-personnes-handicapees" , ["*"], -1)
 
