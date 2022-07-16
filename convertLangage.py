@@ -22,7 +22,7 @@ def convertLanguage(p):
         print(p[2])
         if  p[2] == None:
             return
-        Cselect(p[2])
+        Cselect(p[2], entityTable)
 
 
 def entityExtract(entity, entityTable):

@@ -30,7 +30,7 @@ def recoveryTitleAndDesc(tab):
             print("ERROR")
             break
         if '<title>' in tab[i]:
-            dictres["TITLE"] = recoveryTitle(tab[i]).replace('&#x27;', "'")
+            dictres["TITLE"] = (recoveryTitle(tab[i]).replace('&#x27;', "'"))[6:]
         if '<meta name="description"' in tab[i]:
             dictres["DESC"] = recoveryDesc(tab, i).replace('&#x27;', "'")
             break
@@ -112,7 +112,3 @@ def chooseData(result, entityTable):
     f.write("</Find>\n")
     f.close()
 
-Cselect("aide-personnes-handicapees/paris_15eme-75/carlos-28-ans-aide-aux-personnes-handicapees-516u", ["*"])
-Cselect("aide-personnes-handicapees/paris_13eme-75/aide-a-domicile-pour-les-personnes-en-situation-de-dependance-etou-handicap-74st", ["*"])
-Cselect("aide-personnes-handicapees/paris-75/assistante-de-vie-aux-familles-a-son-compte-8dbg#", ["*"])
-Cselect("aide-personnes-handicapees/paris-75/aide-a-la-personne-8aq9", ["*"])
