@@ -37,7 +37,7 @@ t_ignore = " \t"
 
 
 def t_ENTITY(t):
-    r"""DESC|URL_INFO|ID|PLACE|TITLE|\*"""
+    r"""NUM|PRICE|NET_PRICE|DESC|URL_INFO|ID|PLACE|TITLE|\*"""
     return t
 
 def t_POSTAL(t):
