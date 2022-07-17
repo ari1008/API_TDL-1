@@ -2,6 +2,36 @@ import requests
 import pprint
 
 
+def reveryUrlnav(lineurl):
+    return lineurl[lineurl.find('href="'):lineurl.rfind('">')]
+
+def nav(tabres, content):
+    try:
+        index = content.index('  <ul class="pagination">')
+        content = content[index:]
+        index2 = content.index('</nav>')
+        tabUrl = []
+        for i in range(0, index2):
+            if 'href' in content[i] and 'ala-chevron-right' not in content[i]:
+                tabUrl.append("https://www.aladom.fr" + reveryUrlnav(content[i])[6:])
+        for element in tabUrl:
+            r = request(element)
+            if r != 404:
+                tabres = tabres + parse(r)
+        return tabres
+    except ValueError:
+        return tabres
+
+def recoveryDesc(tab , index):
+    desc = (tab[index])[tab[index].find('">'):]
+    while True:
+        index = index + 1
+        if '</' in tab[index]:
+            break
+        desc = desc + " " +  tab[index]
+    desc = desc + " " +  (tab[index])[:len(tab[index])-2]
+    return desc
+
 #decoup la page avec que ce qui nous interesse 
 def parse(content_url):
     list_content_url = list(content_url.split('\n'))
@@ -38,12 +68,13 @@ def findInfoIntoElement(listElement):
     for i in range(0, len(listElement)):
         if listElement[i] == "    <figure>":
             dictInfo["URL_INFO"] = RecoveryUrlIMG(listElement[i+1])
-            dictInfo["TITLE"] = Recoverytitle(listElement[i+1])
+            dictInfo["TITLE"] = Recoverytitle(listElement[i+1]).replace('&#x27;', "'")
         if listElement[i] == '      <i class="fa fa-fw fa-map-marker"></i>':
             dictInfo["PLACE"] = listElement[i+1]
         if "<h3" in listElement[i]:
             dictInfo["ID"] = RecoveryId(listElement[i])
-        dictInfo["DESC"] = "a faire"
+        if "description" in listElement[i]:
+            dictInfo["DESC"] = recoveryDesc(listElement, i)
     return dictInfo
 
 #recherce element
@@ -57,7 +88,7 @@ def findElement(listElement):
             else:
                 ListRes.append(findInfoIntoElement(listElement[first:i]))
                 first = i
-    printdict(ListRes)
+    ListRes.append(findInfoIntoElement(listElement[first:]))
     return ListRes
 
 #prend en paramètre l'url de la page 
@@ -76,9 +107,18 @@ def printdict(tab):
         pprint.pprint(element)
         print("========")
 
-#a finir
+def choose(tab):
+    print(tab)
+
+#fonction qui recherche dans l'api du
 def locate(cp):
-    return "paris-75/"
+    r = requests.get("https://api-adresse.data.gouv.fr/search/?q="+str(cp)+"&type=municipality")
+    test = r.json()
+    if len(test['features']) > 0:
+        name = test['features'][0]['properties']['name']
+        return  name.lower() + "-"+ (str(cp))[:2] +"/"
+    print("CP ERROR")
+    return "errror"
 
 #fonction qui contruit l'url 
 def BuildUrl(type, cp):
@@ -86,12 +126,28 @@ def BuildUrl(type, cp):
 
 #fonction qui se lance lors de l'execution de la commande page  
 def Cfind(cp, type, entityTable, limit):
+    entityTable = ["DESC", "URL_INFO", "ID", "PLACE", "TITLE"] if entityTable == ["*"] else entityTable
     url = BuildUrl(type, cp)
-    cp = request(url)
-    if cp != 400:
-        parse(cp)
-    return
+    requestRes = request(url)
+    if requestRes != 404:
+        result = parse(requestRes)
+        result = nav(result, list(requestRes.split('\n')))
+        chooseData(result, entityTable, limit, cp)
+        return 0
+    return 42
 
-#Cfind(78300, "aide-personnes-handicapees")
-
-
+def chooseData(result, entityTable, limit, cp):
+    if len(result) == 0:
+        return
+    if limit == -1 or  limit > len(result):
+        limit = len(result)
+    f = open("users.xml", mode='w', encoding='utf-8')
+    f.write("<?xml version=\"1.0\"?>\n")
+    f.write("<Find CP="+str(cp)+" LIMIT="+str(limit)+">\n")
+    for i in range(0, limit):
+        f.write(f"\t<User id=\"{i}\">\n")
+        for entity in entityTable:
+             f.write(f"\t\t<{entity.capitalize() }>{result[i].get(entity)}</{entity.capitalize()}>\n")
+        f.write(f"\t</User>\n")
+    f.write("</Find>\n")
+    f.close()
