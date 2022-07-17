@@ -115,8 +115,11 @@ def choose(tab):
 def locate(cp):
     r = requests.get("https://api-adresse.data.gouv.fr/search/?q="+str(cp)+"&type=municipality")
     test = r.json()
-    name = test['features'][0]['properties']['name']
-    return  name.lower() + "-"+ (str(cp))[:2] +"/"
+    if len(test['features']) > 0:
+        name = test['features'][0]['properties']['name']
+        return  name.lower() + "-"+ (str(cp))[:2] +"/"
+    print("CP ERROR")
+    return "errror"
 
 #fonction qui contruit l'url 
 def BuildUrl(type, cp):
@@ -149,6 +152,3 @@ def chooseData(result, entityTable, limit, cp):
         f.write(f"\t</User>\n")
     f.write("</Find>\n")
     f.close()
-
-
-
