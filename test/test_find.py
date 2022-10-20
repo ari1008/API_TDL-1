@@ -1,4 +1,4 @@
-from Findscrapper import Cfind
+from scrapper.Findscrapper import Cfind
 
 def testaidepersonneshandicapees():
    test = Cfind(78300, "aide-personnes-handicapees" , ["*"], -1)

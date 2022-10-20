@@ -151,3 +151,5 @@ def chooseData(result, entityTable, limit, cp):
         f.write(f"\t</User>\n")
     f.write("</Find>\n")
     f.close()
+
+Cfind(78300, "auxiliaire-de-vie", ["*"], -1)

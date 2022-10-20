@@ -1,5 +1,5 @@
-from Selectscrapper import Cselect
-from Findscrapper import Cfind, BuildUrl, parse, request
+from scrapper.Selectscrapper import Cselect
+from scrapper.Findscrapper import Cfind, BuildUrl, parse, request
 
 def test_select_aidepersonneshandicapees():
    url = BuildUrl("aide-personnes-handicapees", 78300)

@@ -1,5 +1,5 @@
-from Findscrapper import Cfind
-from Selectscrapper import Cselect
+from scrapper.Findscrapper import Cfind
+from scrapper.Selectscrapper import Cselect
 
 
 def convertLanguage(p):

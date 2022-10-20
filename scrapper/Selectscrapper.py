@@ -1,4 +1,5 @@
-from Findscrapper import request, RecoveryUrlIMG
+from Findscrapper import RecoveryUrlIMG
+import requests
 
 # récupère le titre de la page d'apres la balise title 
 def recoveryTitle(title):
@@ -92,7 +93,7 @@ def createUrl(id):
 def Cselect(id, entityTable):
     entityTable = ["DESC", "URL_INFO", "NET_PRICE", "PRICE", "TITLE", "PLACE", "NUM"] if entityTable == ["*"] else entityTable
     url = createUrl(id)
-    txtpage = request(url)
+    txtpage = requests.get(url)
     print(url)
     if txtpage != 404:
         res = parse(txtpage)
@@ -111,4 +112,3 @@ def chooseData(result, entityTable):
             f.write(f"\t<{entity.capitalize() }>{result.get(entity)}</{entity.capitalize()}>\n")
     f.write("</Find>\n")
     f.close()
-
