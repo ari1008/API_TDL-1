@@ -113,13 +113,13 @@ def p_expression_expr(p):
     else:
         p[0] = ("ENTITY", p[1], p[3])
 
-
-yacc.yacc()
-#yacc.yacc(tabmodule="foo")  # after
-s5: str = " FIND * WHERE  CP = 78300 AND TYPE = nothing LIMIT 0 ;" # error
-s6: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 1 ;" # work
-s7: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 0 ;" # create empty xml  ;) I choice the solution
-s8: str = " FIND * WHERE  CP = 78300 AND TYPE = cours-tango LIMIT 1 ;"
-s9: str = "SELECT * FROM ID = cours-tango/saint-germain-en-laye-78/couple-de-danseurs-de-tango-argentin-donne-cours-en-region-ouest-parisienne-2nq9"
-#s = input('> ')
-yacc.parse(s9)
+def start(s):
+    yacc.yacc()
+    #yacc.yacc(tabmodule="foo")  # after
+    s5: str = " FIND * WHERE  CP = 78300 AND TYPE = nothing LIMIT 0 ;" # error
+    s6: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 1 ;" # work
+    s7: str = " FIND * WHERE  CP = 78300 AND TYPE = aide-personnes-handicapees LIMIT 0 ;" # create empty xml  ;) I choice the solution
+    s8: str = " FIND * WHERE  CP = 78300 AND TYPE = cours-tango LIMIT 1 ;"
+    s9: str = "SELECT * FROM ID = cours-tango/saint-germain-en-laye-78/couple-de-danseurs-de-tango-argentin-donne-cours-en-region-ouest-parisienne-2nq9"
+    #s = input('> ')
+    return yacc.parse(s)
