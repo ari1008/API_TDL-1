@@ -2,3 +2,4 @@
 *.xml
 *.pyc
 parsetab.py
+parser.out

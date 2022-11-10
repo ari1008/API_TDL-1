@@ -1,5 +1,6 @@
-from Findscrapper import RecoveryUrlIMG
 import requests
+
+from scrapper.Findscrapper import RecoveryUrlIMG
 
 # récupère le titre de la page d'apres la balise title 
 def recoveryTitle(title):
@@ -45,7 +46,7 @@ def parse(txtpage):
     try:
         index = list_content_url.index('          <div class="offer-service-card ">')
         dictres = NOPro(dictres, list_content_url[index:])
-        dictres["ULR_IMG"] = RecoveryUrlIMG(list_content_url[list_content_url.index('              <div class="offer-item-picture" itemprop="provider" itemscope itemtype="https://schema.org/Person">')+1])
+        dictres["ULR_IMG"] = Findscrapper.RecoveryUrlIMG(list_content_url[list_content_url.index('              <div class="offer-item-picture" itemprop="provider" itemscope itemtype="https://schema.org/Person">')+1])
     except ValueError:
         dictres = pro(dictres, list_content_url)
     return dictres 

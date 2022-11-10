@@ -30,7 +30,8 @@ def recoveryDesc(tab , index):
             break
         desc = desc + " " +  tab[index]
     desc = desc + " " +  (tab[index])[:len(tab[index])-2]
-    return desc
+    desc = desc[:len(desc)-5]
+    return desc + "..."
 
 #decoup la page avec que ce qui nous interesse 
 def parse(content_url):
@@ -133,8 +134,8 @@ def Cfind(cp, type, entityTable, limit):
         result = parse(requestRes)
         result = nav(result, list(requestRes.split('\n')))
         chooseData(result, entityTable, limit, cp)
-        return 0
-    return 42
+        return result
+    return 
 
 def chooseData(result, entityTable, limit, cp):
     if len(result) == 0:
@@ -143,7 +144,9 @@ def chooseData(result, entityTable, limit, cp):
         limit = len(result)
     f = open("users.xml", mode='w', encoding='utf-8')
     f.write("<?xml version=\"1.0\"?>\n")
-    f.write("<Find CP="+str(cp)+" LIMIT="+str(limit)+">\n")
+    f.write("<Find>\n")
+    f.write("\t<CP>"+str(cp)+"</CP>\n")
+    f.write("\t<LIMIT>"+str(limit)+"</LIMIT>\n")
     for i in range(0, limit):
         f.write(f"\t<User id=\"{i}\">\n")
         for entity in entityTable:
@@ -152,4 +155,3 @@ def chooseData(result, entityTable, limit, cp):
     f.write("</Find>\n")
     f.close()
 
-Cfind(78300, "auxiliaire-de-vie", ["*"], -1)

@@ -4,6 +4,18 @@ def verifIfIsWord(word):
     f.close()
     return result
 
+#fonction qui transforme le xml en JSON
+def XmlToJson():
+    import xmltodict
+    import pprint
+    import json
+
+    with open('users.xml') as fd:
+        doc = xmltodict.parse(fd.read())
+
+    pp = pprint.PrettyPrinter(indent=4)
+    return json.dumps(doc)
+
 #fonction qui permet d'ecrire different test pour la fonction find
 def WriteTest():
     w = open("work.txt", mode='r', encoding='utf-8')
