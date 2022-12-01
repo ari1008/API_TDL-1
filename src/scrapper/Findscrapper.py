@@ -135,8 +135,8 @@ def Cfind(cp, type, entityTable, limit):
         result = parse(requestRes)
         result = nav(result, list(requestRes.split('\n')))
         chooseData(result, entityTable, limit, cp)
-        return result
-    return 
+        return 0
+    return 1
 
 def chooseData(result, entityTable, limit, cp):
     dict = {}

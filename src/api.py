@@ -1,7 +1,6 @@
 from unittest import result
 from flask import Flask, jsonify, request
 from language.langage import parse
-from markupsafe import escape
 from tools.Work import XmlToJson
 import pprint
 
