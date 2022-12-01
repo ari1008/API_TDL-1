@@ -13,10 +13,13 @@ def get_all_users():
 
 @app.route('/api/find/<sentence>', methods=['GET'])
 def get_one_users(sentence):
-    print(sentence)
-    parse(sentence)
-    res = XmlToJson()
-    return jsonify(status="True", result = res)
+    if "FIND" in sentence:
+        print(sentence)
+        parse(sentence)
+        res = XmlToJson()
+        return jsonify(status="True", result = res)
+    else: 
+        return jsonify(status="false")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True) #enlver le debug 
