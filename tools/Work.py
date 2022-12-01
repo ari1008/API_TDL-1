@@ -8,10 +8,10 @@ def verifIfIsWord(word):
 def XmlToJson():
     import json
 
-    with open('users.xml', encoding="utf-8") as fd:
-        fd.read()
-    
-    return json.dumps(doc)
+    fileObject = open("users.json", "r")
+    jsonContent = fileObject.read()
+    print(jsonContent)
+    return json.loads(jsonContent)
 
 #fonction qui permet d'ecrire different test pour la fonction find
 def WriteTest():

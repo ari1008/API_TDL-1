@@ -160,6 +160,6 @@ def chooseData(result, entityTable, limit, cp):
                 dictUSer[entity.capitalize()] = sentence
     find["USER"] = dictUSer
     dict["LIMIT"] = find
-    f = open("users.json", mode='a', encoding='utf-8')
+    f = open("users.json", mode='w', encoding='utf-8')
     json.dump(dict, f)
 
