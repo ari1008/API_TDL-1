@@ -3,3 +3,4 @@
 *.pyc
 parsetab.py
 parser.out
+*.json

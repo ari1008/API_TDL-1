@@ -6,14 +6,11 @@ def verifIfIsWord(word):
 
 #fonction qui transforme le xml en JSON
 def XmlToJson():
-    import xmltodict
-    import pprint
     import json
 
-    with open('users.xml') as fd:
-        doc = xmltodict.parse(fd.read())
-
-    pp = pprint.PrettyPrinter(indent=4)
+    with open('users.xml', encoding="utf-8") as fd:
+        fd.read()
+    
     return json.dumps(doc)
 
 #fonction qui permet d'ecrire different test pour la fonction find

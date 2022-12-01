@@ -19,6 +19,6 @@ def get_one_users(sentence):
     return jsonify(status="True", result = res)
 
 if __name__ == '__main__':
-    #app.run(host='0.0.0.0', port=8000, debug=True)
-    pprint.pprint(XmlToJson())
+    app.run(host='0.0.0.0', port=8000, debug=True)
+    #pprint.pprint(XmlToJson())
 

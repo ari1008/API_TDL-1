@@ -1,5 +1,6 @@
 import requests
 import pprint
+import json
 
 
 def reveryUrlnav(lineurl):
@@ -138,20 +139,27 @@ def Cfind(cp, type, entityTable, limit):
     return 
 
 def chooseData(result, entityTable, limit, cp):
+    dict = {}
     if len(result) == 0:
         return
     if limit == -1 or  limit > len(result):
         limit = len(result)
-    f = open("users.xml", mode='w', encoding='utf-8')
-    f.write("<?xml version=\"1.0\"?>\n")
-    f.write("<Find>\n")
-    f.write("\t<CP>"+str(cp)+"</CP>\n")
-    f.write("\t<LIMIT>"+str(limit)+"</LIMIT>\n")
+    find = {}
+    find["CP"] = str(cp)
+    find["LIMIT"] = str(limit)
+    dictUSer = {}
     for i in range(0, limit):
-        f.write(f"\t<User id=\"{i}\">\n")
         for entity in entityTable:
-             f.write(f"\t\t<{entity.capitalize() }>{result[i].get(entity)}</{entity.capitalize()}>\n")
-        f.write(f"\t</User>\n")
-    f.write("</Find>\n")
-    f.close()
+            sentence = result[i].get(entity)
+            print(type(sentence))
+            if (type(sentence) == str):
+                if ('"' in sentence):
+                    sentence.replace('"', '')
+                if ("'" in sentence):
+                    sentence.replace("'", '')
+                dictUSer[entity.capitalize()] = sentence
+    find["USER"] = dictUSer
+    dict["LIMIT"] = find
+    f = open("users.json", mode='a', encoding='utf-8')
+    json.dump(dict, f)
 
