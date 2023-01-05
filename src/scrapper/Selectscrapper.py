@@ -1,5 +1,4 @@
 import requests
-
 from scrapper.Findscrapper import RecoveryUrlIMG
 
 # récupère le titre de la page d'apres la balise title 
