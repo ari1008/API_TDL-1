@@ -1,5 +1,5 @@
-from Findscrapper import Cfind
-from Selectscrapper import Cselect
+from scrapper.Findscrapper import Cfind
+from scrapper.Selectscrapper import Cselect
 
 
 def convertLanguage(p):
@@ -14,7 +14,6 @@ def convertLanguage(p):
         if Type is None:
             print("Vous avez mis une catégorie qui n'existe pas")
             return
-
         if len(p) == 4 and p[3] >= 0:
             limit = p[3]
         Cfind(cp, Type, entityTable, limit)

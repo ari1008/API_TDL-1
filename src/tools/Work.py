@@ -4,6 +4,15 @@ def verifIfIsWord(word):
     f.close()
     return result
 
+#fonction qui transforme le xml en JSON
+def XmlToJson():
+    import json
+
+    fileObject = open("users.json", "r")
+    jsonContent = fileObject.read()
+    print(jsonContent)
+    return json.loads(jsonContent)
+
 #fonction qui permet d'ecrire different test pour la fonction find
 def WriteTest():
     w = open("work.txt", mode='r', encoding='utf-8')
