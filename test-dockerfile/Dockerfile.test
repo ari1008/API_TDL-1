@@ -1,0 +1,14 @@
+FROM python:3.10.8
+
+WORKDIR /code
+
+COPY prod_dockerfile/web/requirements.txt .
+COPY prod_dockerfile/web/pytest.ini .
+
+RUN pip install -r ./requirements.txt
+
+COPY src/ .
+
+EXPOSE 80
+
+CMD ["pytest"]
