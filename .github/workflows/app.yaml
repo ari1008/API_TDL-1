@@ -1,4 +1,4 @@
-name: PA_TDL
+name: PA_TDL_Test
 
 on: [push]
 
@@ -22,6 +22,7 @@ jobs:
           pip install flake8 pytest
           echo "hello"
           if [ -f ./prod_dockerfile/web/requirements.txt ];  then echo "hello2"; pip install -r ./prod_dockerfile/web/requirements.txt; fi
+
           ls -al prod_dockerfile/web/
           echo "hello"
       #- name: Lint with flake8
