@@ -22,6 +22,8 @@ jobs:
           pip install flake8 pytest
           echo "hello"
           if [ -f prod_dockerfile/web/requirements.txt ];  then echo "hello"; pip install -r prod_dockerfile/web/requirements.txt; fi
+          pwd 
+          ls -al
           echo "hello"
       #- name: Lint with flake8
         #run: |
