@@ -37,7 +37,7 @@ def recoveryDesc(tab , index):
 #decoup la page avec que ce qui nous interesse 
 def parse(content_url):
     list_content_url = list(content_url.split('\n'))
-    index = list_content_url.index('    <div class="row offer-list">')
+    index = list_content_url.index('    <div class="row offer-list mt-4">') 
     list_content_url = list_content_url[index:]
     index2 = list_content_url.index('      <div class="row">')
     list_content_url = list_content_url[:index2+1]
