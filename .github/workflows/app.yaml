@@ -20,7 +20,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest
+          echo "hello"
           if [ -f prod_dockerfile/web/requirements.txt ];  then echo "hello"; pip install -r prod_dockerfile/web/requirements.txt; fi
+          echo "hello"
       #- name: Lint with flake8
         #run: |
         #  # stop the build if there are Python syntax errors or undefined names
