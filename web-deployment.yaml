@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace:  4al1-groupe-2
   annotations:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (b0ed6a2c9)
@@ -22,15 +23,8 @@ spec:
         io.kompose.service: web
     spec:
       containers:
-        - args:
-            - gunicorn
-            - -w
-            - "4"
-            - --bind
-            - 0.0.0.0:8000
-            - api:app
-          image: ari1008/web-aristide:1.0
-          name: web
+        - name: web
+          image: ari1008/web-aristide
           ports:
             - containerPort: 8000
           resources: {}
