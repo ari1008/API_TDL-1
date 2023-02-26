@@ -17,3 +17,7 @@ spec:
     io.kompose.service: web
 status:
   loadBalancer: {}
+metadata:
+  name: {{ include "my-chart.fullname" . }}
+  labels:
+    {{- include "my-chart.labels" . | nindent 4 }}
