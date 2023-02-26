@@ -50,4 +50,4 @@ jobs:
         run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
 
       - name: Update Helm
-        run: helm upgrade --kubeconfig ./kubeconfig.yml my-chart ./chart/
+        run: helm upgrade --kubeconfig ./kubeconfig.yml my-chart ./my-chart/
