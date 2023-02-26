@@ -2,6 +2,7 @@ name: PA_TDL_Test
 
 on: [push]
 
+
 jobs:
   docker:
       #needs: [build]
@@ -11,11 +12,26 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v3.1.0
           
-        - name: Afficher les détails du fichier PA_TDL_Test
-          run: ls -al prod_dockerfile
-        
         - name: Login to Docker Hub
           uses: docker/login-action@v2.1.0
           with:
             username: ari1008
-            password: dckr_pat_n-DRFcAA4X6aT
+            password: dckr_pat_n-DRFcAA4X6aT8_slrCeD9jzBFg
+            logout: true
+        
+        - name: Afficher les détails du fichier PA_TDL_Test
+          run: if [ -f prod_dockerfile/web/DockerFile.prod ]; then echo "hello"; fi 
+
+        - name: Extract metadata (tags, labels) for Docker
+          id: meta
+          uses: docker/metadata-action@v4.1.1
+          with:
+            images: ari1008/web-aristide
+        
+        
+        - name: Build and push Docker image
+          uses: docker/build-push-action@v3
+          with:
+            context:  ./DockerFile.prod
+            push: true
+            tags: ari1008/web-aristide
