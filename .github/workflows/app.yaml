@@ -22,11 +22,9 @@ jobs:
         - name: Afficher les détails du fichier PA_TDL_Test
           run: if [ -f prod_dockerfile/web/DockerFile.prod ]; then echo "hello"; fi 
 
-        - name: Extract metadata (tags, labels) for Docker
-          id: meta
-          uses: docker/metadata-action@v4.1.1
-          with:
-            images: ari1008/web-aristide
+        - name: Build Docker Compose
+          run: |
+            docker-compose build
         
         
         - name: Build and push Docker image
