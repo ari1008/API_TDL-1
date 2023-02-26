@@ -15,12 +15,9 @@ jobs:
         - name: Login to Docker Hub
           uses: docker/login-action@v2.1.0
           with:
-            username: ari1008
-            password: dckr_pat_n-DRFcAA4X6aT8_slrCeD9jzBFg
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
             logout: true
-        
-        - name: Afficher les détails du fichier PA_TDL_Test
-          run: if [ -f prod_dockerfile/web/DockerFile.prod ]; then echo "hello"; fi 
 
         - name: Extract metadata (tags, labels) for Docker
           id: meta
