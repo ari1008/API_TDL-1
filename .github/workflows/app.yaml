@@ -32,6 +32,6 @@ jobs:
         - name: Build and push Docker image
           uses: docker/build-push-action@v3
           with:
-            context:  prod_dockerfile/web/DockerFile.prod
+            context:  .
             push: true
             tags: ari1008/web-aristide
