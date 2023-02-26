@@ -20,11 +20,13 @@ jobs:
             logout: true
         
         - name: Afficher les détails du fichier PA_TDL_Test
-          run: if [ -f prod_dockerfile/web/DockerFile.prod ]; then echo "hello"; fi 
+          run: |
+            if [ -f prod_dockerfile/web/DockerFile.prod ]; then echo "hello"; fi 
+            ls -al
 
         - name: Build Docker Compose
           run: |
-            docker-compose build
+            docker-compose build 
         
         
         - name: Build and push Docker image
