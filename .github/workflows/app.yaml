@@ -12,7 +12,7 @@ jobs:
           uses: actions/checkout@v3.1.0
           
         - name: Afficher les détails du fichier PA_TDL_Test
-          run: ls -al 
+          run: ls -al prod_dockerfile
         
         - name: Login to Docker Hub
           uses: docker/login-action@v2.1.0
